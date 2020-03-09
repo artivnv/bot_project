@@ -1,6 +1,7 @@
 # API KEY Telegram
-token.txt
+settings.py
 .vscode
+/images
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
