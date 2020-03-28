@@ -2,10 +2,14 @@
 #from flask.ext import foo => import flask_foo as foo
 #from flask.ext.foo import bam => from flask_foo import bam
 
-from flask import Flask, url_for, redirect, render_template, request
+from flask import Flask, url_for, redirect, render_template, request, flash
 from flask_mongoengine import MongoEngine
 
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField
 from wtforms import form, fields, validators
+
+from werkzeug.security import generate_password_hash, check_password_hash
 
 import flask_admin as admin
 import flask_login as login
@@ -44,15 +48,21 @@ class User(db.Document):
     def get_id(self):
         return str(self.id)
 
+    def set_password(self, password):
+        self.password = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
+
     # Required for administrative interface
     def __unicode__(self):
-        return self.login
+        return '<User {}>'.format(self.login)
 
 
 # Define login and registration forms (for flask-login)
 class LoginForm(form.Form):
-    login = fields.TextField('Login', validators=[validators.required])
-    password = fields.PasswordField('Password', validators=[validators.required])
+    login = fields.TextField('Login', validators=[validators.required], render_kw={"class": "form-control"})
+    password = fields.PasswordField('Password', validators=[validators.required], render_kw={"class": "form-control"})
 
     def validate_login(self, field):
         user = self.get_user()
@@ -103,38 +113,44 @@ class MyAdminIndexView(admin.AdminIndexView):
 # Flask views
 @app.route('/')
 def index():
-    return render_template('index.html', user=login.current_user)
+    title = '_____'
+    return render_template('index.html', page_title=title, user=login.current_user)
 
 
 @app.route('/login/', methods=('GET', 'POST'))
 def login_view():
+    title = 'Авторизация'
     form = LoginForm(request.form)
     if request.method == 'POST' and form.validate:
         user = form.get_user()
         login.login_user(user)
+        flash('Авторизация успешна')
         return redirect(url_for('index'))
 
-    return render_template('form.html', form=form)
+    return render_template('form.html', page_title=title, form=form)
 
 
 @app.route('/register/', methods=('GET', 'POST'))
 def register_view():
+    title = 'Регистрация'
     form = RegistrationForm(request.form)
-    if request.method == 'POST' and form.validate():
+    if request.method == 'POST' and form.validate:
         user = User()
 
         form.populate_obj(user)
         user.save()
 
         login.login_user(user)
+        flash('Регистрация успешна')
         return redirect(url_for('index'))
 
-    return render_template('form.html', form=form)
+    return render_template('form.html', page_title=title, form=form)
 
 
 @app.route('/logout/')
 def logout_view():
     login.logout_user()
+    flash('Вы успешно разлогинились')
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
