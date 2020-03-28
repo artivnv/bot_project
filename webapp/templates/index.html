@@ -26,18 +26,18 @@
                         {% endif %}
                     {% endwith %}
                 {% if user and user.is_authenticated %}
-                    Привет {{ user.login }}!
+                    <h6 class="mt-5", style="font-size:150%;"><i>Привет {{ user.login }}!</i></h6><br>
                     <a href="{{ url_for('logout_view') }}">Выйти</a>
                 {% else %}
-                    <h2 class="mt-5">Привет, выполни действие.</h2>
-                    <a href="{{ url_for('login_view') }}">Авторизация</a>&nbsp;
-                    <a href="{{ url_for('register_view') }}">Регистрация</a>
+                    <h3 class="mt-5">Привет, выполни действие.</h3><br>
+                    <h5><a href="{{ url_for('login_view') }}">Авторизация</a>&nbsp;
+                    <a href="{{ url_for('register_view') }}">Регистрация</a></h5>
                 {% endif %}
             </div>
         </main>
 
-        <div class="container px-lg-5">
-            <a href="{{ url_for('admin.index') }}">Войти в админ-панель</a>
+        <div class="container px-lg-5"><br>
+            <h6><a href="{{ url_for('admin.index') }}", style="color:red">Войти в админ-панель</a></h6>
         </div>
 
 

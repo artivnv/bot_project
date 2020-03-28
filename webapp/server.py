@@ -14,7 +14,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import flask_admin as admin
 import flask_login as login
 from flask_admin.contrib.mongoengine import ModelView
-from flask_admin import helpers
+from flask_admin import helpers, Admin, BaseView, expose
 
 # Create application
 app = Flask(__name__)
@@ -56,7 +56,7 @@ class User(db.Document):
 
     # Required for administrative interface
     def __unicode__(self):
-        return '<User {}>'.format(self.login)
+        return '<User name={} id={}>'.format(self.login, self.id)
 
 
 # Define login and registration forms (for flask-login)
@@ -109,6 +109,9 @@ class MyAdminIndexView(admin.AdminIndexView):
     def is_accessible(self):
         return login.current_user.is_authenticated
 
+    @expose('/bot_ed/')
+    def bot_ed(self):
+        return self.render('bot_ed.html')
 
 # Flask views
 @app.route('/')
@@ -136,10 +139,8 @@ def register_view():
     form = RegistrationForm(request.form)
     if request.method == 'POST' and form.validate:
         user = User()
-
         form.populate_obj(user)
         user.save()
-
         login.login_user(user)
         flash('Регистрация успешна')
         return redirect(url_for('index'))
@@ -162,6 +163,8 @@ if __name__ == '__main__':
 
     # Add view
     admin.add_view(MyModelView(User))
+    admin.add_view(MyAdminIndexView(name='Редактор бота'))
+    admin.init_app(app)
 
     # Start app
     app.run(debug=True)
