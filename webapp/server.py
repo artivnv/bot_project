@@ -13,8 +13,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 import flask_admin as admin
 import flask_login as login
+
+from flask_admin import Admin
+from flask_admin.base import MenuLink
+from flask_admin.contrib.fileadmin import FileAdmin
 from flask_admin.contrib.mongoengine import ModelView
-from flask_admin import helpers, Admin, BaseView, expose
+from flask_admin import helpers, BaseView, expose
 
 # Create application
 app = Flask(__name__)
@@ -101,17 +105,26 @@ def init_login():
 # Create customized model view class
 class MyModelView(ModelView):
     def is_accessible(self):
-        return login.current_user.is_authenticated
+        return login.current_user.is_authenticated()
 
 
 # Create customized index view class
 class MyAdminIndexView(admin.AdminIndexView):
     def is_accessible(self):
-        return login.current_user.is_authenticated
+        return login.current_user.is_authenticated()
 
-    @expose('/bot_ed/')
-    def bot_ed(self):
+class MyAdminView(admin.BaseView):
+    @admin.expose('/')
+    def index(self):
         return self.render('bot_ed.html')
+
+class ExitAdmin(admin.BaseView):
+    @admin.expose('/')
+    def logout_view(self):
+        login.logout_user()
+        flash('Вы успешно разлогинились')
+        return redirect(url_for('index'))
+
 
 # Flask views
 @app.route('/')
@@ -163,8 +176,8 @@ if __name__ == '__main__':
 
     # Add view
     admin.add_view(MyModelView(User))
-    admin.add_view(MyAdminIndexView(name='Редактор бота'))
-    admin.init_app(app)
+    admin.add_view(MyAdminView(name="Редактор бота"))
+    admin.add_view(ExitAdmin(name="Выход"))
 
     # Start app
     app.run(debug=True)
