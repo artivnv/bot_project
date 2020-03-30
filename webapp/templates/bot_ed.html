@@ -1,3 +1,76 @@
-{% block body %}
-    Тут редактор бота.
-{% endblock %}
+<!doctype html>
+<html lang="ru">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Редактор бота</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!--<link rel="stylesheet" media="screen" href="styles.css">-->
+
+  </head>
+
+  <body>
+    <form class="event_form" action=" " method="post" name="event_form">
+    <ul>
+        <li>
+            <h2>Заполним поля для создания нового мероприятия.</h2>
+        </li>
+        <li>
+            <label for="name">Название мероприятия:</label>
+            <input type="text" name="name" placeholder= "text"/>
+        </li>
+        <li>
+            <label for="event_date">Дата проведения:</label>
+            <input type="date" name="event_date">
+        </li>
+        <li>
+            <fieldset>
+                <legend>Добраться до площадки.</legend>
+                <label>
+                    Локация 1:
+                    <textarea name="comment" id="comment" cols="20" rows="4" placeholder= "text"></textarea><br>
+                    <input type="file" name="file">
+                </label>
+                <label>
+                    Локация 2:
+                    <textarea name="comment" id="comment" cols="20" rows="4" placeholder= "text"></textarea><br>
+                    <input type="file" name="file">
+                </label>
+                <label>
+                    Локация 3:
+                    <textarea name="comment" id="comment" cols="20" rows="4" placeholder= "text"></textarea><br>
+                    <input type="file" name="file">
+                  </label>
+              </fieldset>
+        </li>
+        <li>
+            <label for="message">Message:</label>
+            <textarea name="comment" id="comment" cols="40" rows="6" placeholder= "text"></textarea>
+        </li>
+
+        <li>
+            <label for="website">Кнопка календарь событий.</label>
+            <input type="text" name="website" />
+        </li>
+        <li>
+            <label for="website">Кнопка об OZON.</label>
+            <input type="text" name="website" />
+        </li>
+
+
+
+        <li>
+            <button class="submit" type="submit">Отправить форму</button>
+        </li>
+
+    </ul>
+    </form>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </body>
+</html>
