@@ -1,12 +1,8 @@
-# OLD
-#from flask.ext import foo => import flask_foo as foo
-#from flask.ext.foo import bam => from flask_foo import bam
-
 from flask import Flask, url_for, redirect, render_template, request, flash
 from flask_mongoengine import MongoEngine
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms import form, fields, validators
 
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -67,6 +63,7 @@ class User(db.Document):
 class LoginForm(form.Form):
     login = fields.TextField('Login', validators=[validators.required], render_kw={"class": "form-control"})
     password = fields.PasswordField('Password', validators=[validators.required], render_kw={"class": "form-control"})
+    remember_me = BooleanField('Remember', default=True, render_kw={"class": "form-check-input" "form-check-label"})
 
     def validate_login(self, field):
         user = self.get_user()
@@ -139,7 +136,7 @@ def login_view():
     form = LoginForm(request.form)
     if request.method == 'POST' and form.validate:
         user = form.get_user()
-        login.login_user(user)
+        login.login_user(user, remember=form.remember_me.data)
         flash('Авторизация успешна')
         return redirect(url_for('index'))
 

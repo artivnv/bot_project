@@ -7,23 +7,20 @@
     <title>Редактор бота</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <!--<link rel="stylesheet" media="screen" href="styles.css">-->
 
   </head>
 
   <body>
     <form class="event_form" action=" " method="post" name="event_form">
     <ul>
-        <li>
-            <h2>Заполним поля для создания нового мероприятия.</h2>
-        </li>
+        <h2>Заполним поля для создания нового мероприятия.</h2><br>
         <li>
             <label for="name">Название мероприятия:</label>
-            <input type="text" name="name" placeholder= "text"/>
+            <input type="text" name="name" id="name" placeholder= "text"/>
         </li>
         <li>
             <label for="event_date">Дата проведения:</label>
-            <input type="date" name="event_date">
+            <input type="date" id="event_date" name="event_date">
         </li>
         <li>
             <fieldset>
@@ -46,24 +43,24 @@
               </fieldset>
         </li>
         <li>
-            <label for="message">Message:</label>
+            <label for="message">Список докладов.</label>
             <textarea name="comment" id="comment" cols="40" rows="6" placeholder= "text"></textarea>
         </li>
 
         <li>
             <label for="website">Кнопка календарь событий.</label>
-            <input type="text" name="website" />
+            <input type="text" name="website"/>
         </li>
         <li>
             <label for="website">Кнопка об OZON.</label>
-            <input type="text" name="website" />
-        </li>
+            <input type="text" name="website"/>
+        </li><br>
 
 
 
-        <li>
-            <button class="submit" type="submit">Отправить форму</button>
-        </li>
+
+        <button class="submit" type="submit">Отправить форму</button>
+
 
     </ul>
     </form>
