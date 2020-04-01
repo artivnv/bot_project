@@ -115,6 +115,11 @@ class MyAdminView(admin.BaseView):
     def index(self):
         return self.render('bot_ed.html')
 
+class MyAdminVote(admin.BaseView):
+    @admin.expose('/')
+    def index(self):
+        return self.render('vote.html')
+
 class ExitAdmin(admin.BaseView):
     @admin.expose('/')
     def logout_view(self):
@@ -174,6 +179,7 @@ if __name__ == '__main__':
     # Add view
     admin.add_view(MyModelView(User))
     admin.add_view(MyAdminView(name="Редактор бота"))
+    admin.add_view(MyAdminVote(name="Результаты голосования"))
     admin.add_view(ExitAdmin(name="Выход"))
 
     # Start app
