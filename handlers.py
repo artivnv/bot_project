@@ -21,7 +21,6 @@ def location(update, context):
     navigation_text = 'Выбери откуда тебе удобно добраться.'
     update.message.reply_text(navigation_text, reply_markup=get_keyboard_1())
 
-
 def get_keyboard_1():
     my_keyboard_1 = ReplyKeyboardMarkup([
                                         ['От метро Выставочная', 'От метро Международная'],
@@ -30,7 +29,6 @@ def get_keyboard_1():
                                         ], resize_keyboard=True
                                     )
     return my_keyboard_1
-
 
 def calendar(update, context):
     btn_site = [[InlineKeyboardButton('Мероприятия Ozon Tech', url='https://ozon.dev/events')]]

@@ -1,12 +1,11 @@
-# API KEY Telegram
+# User settings
 settings.py
-/images
+config.py
 
+/images
 
 .vscode/
 .DS_Store/
-
-
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

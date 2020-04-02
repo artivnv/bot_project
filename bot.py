@@ -22,10 +22,11 @@ def main():
     def restart(update, context):
         update.message.reply_text('Bot is restarting...')
         Thread(target=stop_and_restart).start()
-        logging.info('Перезапуск.')
+        logging.info('Бот перезагружен.')
 
     dp.add_handler(CommandHandler('start', greet_user, pass_user_data=True))
     dp.add_handler(CommandHandler('r', restart, filters=Filters.user(username='@artivnv')))
+
     dp.add_handler(MessageHandler(Filters.regex('^(Добраться до площадки)$'), location, pass_user_data=True))
     dp.add_handler(MessageHandler(Filters.regex('^(Связаться с организаторами)$'), send_photo, pass_user_data=True))
     dp.add_handler(MessageHandler(Filters.regex('^(Список докладов)$'), send_photo, pass_user_data=True))
