@@ -7,7 +7,7 @@ from wtforms import form
 import flask_admin as admin
 import flask_login as login
 
-from models import *
+from views import *
 from forms import *
 
 # Initialize flask-login

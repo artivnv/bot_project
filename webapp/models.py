@@ -1,32 +1,43 @@
-from flask import flash, redirect, url_for
-from flask_admin import BaseView, expose
-from flask_admin.contrib.mongoengine import ModelView
+from flask import Flask
+from wtforms import StringField
+from werkzeug.security import check_password_hash, generate_password_hash
+from flask_mongoengine import MongoEngine
 
-import flask_admin as admin
 import flask_login as login
 
-# Create customized model view class
-class MyModelView(ModelView):
-    def is_accessible(self):
-        return login.current_user.is_authenticated()
+# Create application
+app = Flask(__name__)
+app.config.from_pyfile('config.py')
 
-class MyAdminIndexView(admin.AdminIndexView):
-    def is_accessible(self):
-        return login.current_user.is_authenticated()
+# MongoDB settings
+db = MongoEngine()
+db.init_app(app)
 
-class MyAdminView(admin.BaseView):
-    @admin.expose('/')
-    def index(self):
-        return self.render('bot_ed.html')
+# Create user model. For simplicity, it will store passwords in plain text.
+class User(db.Document):
+    login = db.StringField(max_length=80, unique=True)
+    email = db.StringField(max_length=120)
+    password = db.StringField(max_length=64)
 
-class MyAdminVote(admin.BaseView):
-    @admin.expose('/')
-    def index(self):
-        return self.render('vote.html')
+    # Flask-Login integration
+    def is_authenticated(self):
+        return True
 
-class ExitAdmin(admin.BaseView):
-    @admin.expose('/')
-    def logout_view(self):
-        login.logout_user()
-        flash('Вы успешно разлогинились')
-        return redirect(url_for('index'))
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return str(self.id)
+
+    def set_password(self, password):
+        self.password = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
+
+    # Required for administrative interface
+    def __unicode__(self):
+        return '<User name={} id={}>'.format(self.login, self.id)
