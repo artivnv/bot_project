@@ -24,9 +24,28 @@ def main():
         Thread(target=stop_and_restart).start()
         logging.info('Бот перезагружен.')
 
+    org_assessment = ConversationHandler(
+        entry_points=[MessageHandler(Filters.regex('^(Оценить организацию)$'), org_assessment_start, pass_user_data=True)],
+
+        states={
+            "name": [MessageHandler(Filters.text, org_assessment_get_name, pass_user_data=True)],
+            "job": [MessageHandler(Filters.regex('^(0-1|1-2|2-5|5-10)$'), org_assessment_job, pass_user_data=True)],
+            "poz": [MessageHandler(Filters.regex('^(Студент|Junior|Middle|Senior|TeamLead|Manager|Другое)$'), org_assessment_poz, pass_user_data=True)],
+            "rating": [MessageHandler(Filters.regex('^(1|2|3|4|5|6|7|8|9|10)$'), org_assessment_rating, pass_user_data=True)],
+            "comment": [MessageHandler(Filters.text, org_assessment_comment, pass_user_data=True),
+                        CommandHandler('skip',org_assessment_comment_skip, pass_user_data=True)]
+        },
+
+        fallbacks=[MessageHandler(
+            Filters.text | Filters.video | Filters.photo | Filters.document,
+            dontknow,
+            pass_user_data=True
+        )]
+    )
+
     dp.add_handler(CommandHandler('start', greet_user, pass_user_data=True))
     dp.add_handler(CommandHandler('r', restart, filters=Filters.user(username='@artivnv')))
-
+    dp.add_handler(org_assessment)
     dp.add_handler(MessageHandler(Filters.regex('^(Добраться до площадки)$'), location, pass_user_data=True))
     dp.add_handler(MessageHandler(Filters.regex('^(Связаться с организаторами)$'), send_photo, pass_user_data=True))
     dp.add_handler(MessageHandler(Filters.regex('^(Список докладов)$'), send_photo, pass_user_data=True))
@@ -42,22 +61,6 @@ def main():
     dp.add_handler(MessageHandler(Filters.regex('^(Я на машине)$'), location, pass_user_data=True))
 
     dp.add_handler(MessageHandler(Filters.regex('^(Главное меню)$'), greet_user, pass_user_data=True))
-
-    org_assessment = ConversationHandler(
-        entry_points=[MessageHandler(Filters.regex('^(Оценить организацию)$'), org_assessment_start, pass_user_data=True)],
-
-        states={
-            "name": [MessageHandler(Filters.text, org_assessment_get_name, pass_user_data=True)],
-            "job": [MessageHandler(Filters.regex('^(0-1|1-2|2-5|5-10)$'), org_assessment_job, pass_user_data=True)],
-            "poz": [MessageHandler(Filters.regex('^(Студент|Junior|Middle|Senior|TeamLead|Manager|Другое)$'), org_assessment_poz, pass_user_data=True)],
-            "rating": [MessageHandler(Filters.regex('^(1|2|3|4|5|6|7|8|9|10)$'), org_assessment_rating, pass_user_data=True)],
-            "comment": [MessageHandler(Filters.text, org_assessment_comment, pass_user_data=True),
-                        CommandHandler('skip',org_assessment_comment_skip, pass_user_data=True)]
-        },
-
-        fallbacks=[]
-    )
-    dp.add_handler(org_assessment)
 
     #dp.add_handler(MessageHandler(Filters.text, talk_to_me, pass_user_data=True))
 

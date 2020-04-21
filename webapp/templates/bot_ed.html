@@ -9,9 +9,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
   </head>
-
+  {% block content %}
   <body>
-        <form class="event_form" action=" " method="post" name="event_form">
+        <form class="event_form" action="" method="post" name="event_form">
             <ul>
                 <h2>Заполним поля для создания нового мероприятия.</h2><br>
                 <li>
@@ -26,31 +26,31 @@
                     <fieldset>
                         <legend>Добраться до площадки.</legend>
                         <label>Локация 1:
-                            <textarea name="comment" id="comment" cols="20" rows="8" placeholder= "Краткое описание пути + добавление файла схемы"></textarea><br>
-                            <input type="file" name="file">
+                            <textarea name="location1" id="comment" cols="20" rows="8" placeholder= "Краткое описание пути + добавление файла схемы"></textarea><br>
+                            <input type="file" name="scheme1">
                         </label>
                         <label>Локация 2:
-                            <textarea name="comment" id="comment" cols="20" rows="8" placeholder= "Краткое описание пути + добавление файла схемы"></textarea><br>
-                            <input type="file" name="file">
+                            <textarea name="location2" id="comment" cols="20" rows="8" placeholder= "Краткое описание пути + добавление файла схемы"></textarea><br>
+                            <input type="file" name="scheme2">
                         </label>
                         <label>Локация 3:
-                            <textarea name="comment" id="comment" cols="20" rows="8" placeholder= "Краткое описание пути + добавление файла схемы"></textarea><br>
-                            <input type="file" name="file">
+                            <textarea name="location3" id="comment" cols="20" rows="8" placeholder= "Краткое описание пути + добавление файла схемы"></textarea><br>
+                            <input type="file" name="scheme3">
                         </label>
                     </fieldset><br>
                 </li>
                 <li>
                     <label for="message">Список докладов.</label>
-                    <textarea name="comment" id="comment" cols="40" rows="6" placeholder= "Разделять доклады символом '-' и новой строкой."></textarea><br>
+                    <textarea name="list_reports" id="comment" cols="40" rows="6" placeholder= "Разделять доклады символом '-' и новой строкой."></textarea><br>
                 </li><br>
 
                 <li>
                     <label for="website">Кнопка календарь событий.</label>
-                    <input type="text" name="website" placeholder="www.domain.com"/>
+                    <input type="text" name="calendar" placeholder="www.domain.com"/>
                 </li><br>
                 <li>
                     <label for="website">Кнопка об OZON.</label>
-                    <input type="text" name="website" placeholder="www.domain.com"/>
+                    <input type="text" name="about" placeholder="www.domain.com"/>
                 </li><br>
 
 
@@ -61,6 +61,7 @@
 
             </ul>
         </form>
+        {% endblock %}
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

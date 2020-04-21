@@ -104,8 +104,8 @@ def org_assessment_comment(update, context):
 <b>Оценка:</b> {org_rating}
 <b>Комментарий:</b> {org_comment}""".format(**context.user_data)
     update.message.reply_text(text, reply_markup=get_keyboard(), parse_mode=ParseMode.HTML)
-    org = 'Заполнен отзыв о мероприятии с комментарием'
-    logging.info(org)
+    comm = 'Заполнен отзыв о мероприятии'
+    logging.info(comm)
     return ConversationHandler.END
 
 def org_assessment_comment_skip(update, context):
@@ -115,9 +115,8 @@ def org_assessment_comment_skip(update, context):
 <b>Позиция:</b> {poz}
 <b>Оценка:</b> {org_rating}""".format(**context.user_data)
     update.message.reply_text(text, reply_markup=get_keyboard(), parse_mode=ParseMode.HTML)
-    org = 'Заполнен отзыв о мероприятии без комментария'
-    logging.info(org)
     return ConversationHandler.END
 
-
+def dontknow(update, context):
+    update.message.reply_text("Не понимаю")
 
