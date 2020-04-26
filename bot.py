@@ -47,7 +47,7 @@ def main():
     dp.add_handler(CommandHandler('r', restart, filters=Filters.user(username='@artivnv')))
     dp.add_handler(org_assessment)
     dp.add_handler(MessageHandler(Filters.regex('^(Добраться до площадки)$'), location, pass_user_data=True))
-    dp.add_handler(MessageHandler(Filters.regex('^(Связаться с организаторами)$'), send_photo, pass_user_data=True))
+    dp.add_handler(MessageHandler(Filters.regex('^(Связаться с организаторами)$'), contact, pass_user_data=True))
     dp.add_handler(MessageHandler(Filters.regex('^(Список докладов)$'), send_photo, pass_user_data=True))
     dp.add_handler(MessageHandler(Filters.regex('^(Проголосовать за доклады)$'), send_photo, pass_user_data=True))
     dp.add_handler(MessageHandler(Filters.regex('^(Результаты голосования)$'), send_photo, pass_user_data=True))

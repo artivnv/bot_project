@@ -42,6 +42,12 @@ def about(update, context):
     reply_markup = InlineKeyboardMarkup(tech_about)
     update.message.reply_text('Тут можно узнать о технологиях.', reply_markup = reply_markup)
 
+def contact(update, context):
+    org_contact = 'James Marshall Hendrix +7(968) 381-56-10'
+    update.message.reply_text(org_contact, reply_markup=get_keyboard())
+
+
+
 def send_photo(update, context):
     context.bot.send_photo(chat_id=update.message.chat.id, photo=open('images/rick.jpg', 'rb'), reply_markup=get_keyboard())
 
@@ -119,4 +125,3 @@ def org_assessment_comment_skip(update, context):
 
 def dontknow(update, context):
     update.message.reply_text("Не понимаю")
-
