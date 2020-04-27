@@ -58,18 +58,6 @@ def logout_view():
     flash('Вы успешно разлогинились')
     return redirect(url_for('index'))
 
-#@app.route('/upload/', methods=['GET', 'POST'])
-#def upload():
-#    title = 'Отправка данных в базу'
-#    form = EventForm(request.form)
-#    if request.method == 'POST' and form.validate:
-#        form.file.data.save()
-#
-#        flash('Данные о мероприятии записались в базу')
-#        return redirect(url_for('index'))
-#
-#    return render_template('upload.html', form=form)
-
 
 if __name__ == '__main__':
     # Initialize flask-login

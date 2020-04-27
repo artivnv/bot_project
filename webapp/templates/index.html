@@ -16,6 +16,7 @@
     <body>
         <main role="main">
             <div class="container px-lg-5">
+
                 {% with messages = get_flashed_messages() %}
                         {% if messages %}
                         <div class="alert alert-warning" role="alert">
@@ -25,9 +26,17 @@
                         </div>
                         {% endif %}
                     {% endwith %}
+
+
+
                 {% if user and user.is_authenticated %}
-                    <h6 class="mt-5", style="font-size:150%;"><i>Привет {{ user.login }}!</i></h6><br>
+                    <h6 class="mt-5", style="font-size:150%;"><i>Привет, {{ user.login }}!</i></h6><br>
                     <a href="{{ url_for('logout_view') }}">Выйти</a>
+
+                    <div class="container px-lg-6"><br>
+                        <h6><a href="{{ url_for('admin.index') }}", style="color:red">Войти в админ-панель</a></h6>
+                    </div>
+
                 {% else %}
                     <h3 class="mt-5">Привет, выполни действие.</h3><br>
                     <h5><a href="{{ url_for('login_view') }}">Авторизация</a>&nbsp;
@@ -35,17 +44,6 @@
                 {% endif %}
             </div>
         </main>
-
-        <div class="container px-lg-5"><br>
-            <h6><a href="{{ url_for('admin.index') }}", style="color:red">Войти в админ-панель</a></h6>
-        </div>
-
-
-        <footer class="footer mt-auto py-3">
-            <div class="container px-lg-5">
-              <span class="text-muted">footer</span>
-            </div>
-        </footer>
 
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

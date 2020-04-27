@@ -55,10 +55,10 @@ def main():
     dp.add_handler(MessageHandler(Filters.regex('^(Календарь событий)$'), calendar, pass_user_data=True))
     dp.add_handler(MessageHandler(Filters.regex('^(Об Ozon Tech)$'), about, pass_user_data=True))
 
-    dp.add_handler(MessageHandler(Filters.regex('^(От метро Выставочная)$'), location, pass_user_data=True))
-    dp.add_handler(MessageHandler(Filters.regex('^(От метро Международная)$'), location, pass_user_data=True))
-    dp.add_handler(MessageHandler(Filters.regex('^(От МЦК Деловой центр)$'), location, pass_user_data=True))
-    dp.add_handler(MessageHandler(Filters.regex('^(Я на машине)$'), location, pass_user_data=True))
+    dp.add_handler(MessageHandler(Filters.regex('^(От метро Выставочная)$'), location_vist, pass_user_data=True))
+    dp.add_handler(MessageHandler(Filters.regex('^(От метро Международная)$'), location_mejd, pass_user_data=True))
+    dp.add_handler(MessageHandler(Filters.regex('^(От МЦК Деловой центр)$'), location_mtsk, pass_user_data=True))
+    dp.add_handler(MessageHandler(Filters.regex('^(Я на машине)$'), location_car, pass_user_data=True))
 
     dp.add_handler(MessageHandler(Filters.regex('^(Главное меню)$'), greet_user, pass_user_data=True))
 

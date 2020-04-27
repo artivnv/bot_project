@@ -17,7 +17,7 @@
         {% block body %}
         <form class="event_form" action="{{ url_for('.Upload') }}" method="post" name="event_form">
             <ul>
-                <h2>Заполним поля для создания нового мероприятия.</h2><br>
+                <h3>Заполним поля для создания нового мероприятия.</h3><br>
                 <li>
                     <label for="name">Название мероприятия:</label>
                     <input type="text" name="name" id="name" placeholder= "Название"/>
@@ -27,37 +27,9 @@
                     <input type="date" id="event_date" name="event_date">
                 </li><br>
                 <li>
-                    <fieldset>
-                        <legend>Добраться до площадки.</legend>
-                        <label>Локация 1:
-                            <textarea name="location1" id="comment" cols="20" rows="8" placeholder= "Краткое описание пути + добавление файла схемы"></textarea><br>
-                            <input type="file" name="scheme1">
-                        </label>
-                        <label>Локация 2:
-                            <textarea name="location2" id="comment" cols="20" rows="8" placeholder= "Краткое описание пути + добавление файла схемы"></textarea><br>
-                            <input type="file" name="scheme2">
-                        </label>
-                        <label>Локация 3:
-                            <textarea name="location3" id="comment" cols="20" rows="8" placeholder= "Краткое описание пути + добавление файла схемы"></textarea><br>
-                            <input type="file" name="scheme3">
-                        </label>
-                    </fieldset><br>
-                </li>
-                <li>
                     <label for="message">Список докладов.</label>
                     <textarea name="list_reports" id="comment" cols="40" rows="6" placeholder= "Разделять доклады символом '-' и новой строкой."></textarea><br>
                 </li><br>
-
-                <li>
-                    <label for="website">Кнопка календарь событий.</label>
-                    <input type="text" name="calendar" placeholder="www.domain.com"/>
-                </li><br>
-                <li>
-                    <label for="website">Кнопка об OZON.</label>
-                    <input type="text" name="about" placeholder="www.domain.com"/>
-                </li><br>
-
-
 
 
                 <button class="submit" type="submit">Отправить форму</button>

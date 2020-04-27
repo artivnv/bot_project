@@ -8,6 +8,7 @@ import flask_admin as admin
 import flask_login as login
 
 from forms import EventForm
+from models import *
 
 # Create customized model view class
 class MyModelView(ModelView):
@@ -29,12 +30,12 @@ class MyAdminView(admin.BaseView):
         def post(self, cls):
             title = 'Отправка данных в базу'
             form = EventForm(request.form)
-            print(request.form)
-
-            #form.file.data.save()
+            if request.method == 'POST' and form.validate:
+                event = Event()
+                form.populate_obj(event)
+                event.save()
             flash('Данные о мероприятии записались в базу')
             return cls.render('index.html', request=request, name="upload")
-
 
 class MyAdminVote(admin.BaseView):
     @admin.expose('/')

@@ -1,5 +1,4 @@
-from wtforms import BooleanField, PasswordField, fields, form, validators, DateField, TextField
-from flask_wtf.file import FileField
+from wtforms import BooleanField, PasswordField, form, validators, DateField, TextField
 
 import flask_login as login
 
@@ -33,15 +32,6 @@ class RegistrationForm(form.Form):
             raise validators.ValidationError('Duplicate username')
 
 class EventForm(form.Form):
-    event_id = TextField(validators=[validators.required])
     name = TextField(validators=[validators.required])
     event_date = DateField(validators=[validators.required])
-    location1 = TextField(validators=[validators.required])
-    location2 = TextField(validators=[validators.required])
-    location3 = TextField(validators=[validators.required])
-    scheme1 = FileField(validators=[validators.required])
-    scheme2 = FileField(validators=[validators.required])
-    scheme3 = FileField(validators=[validators.required])
     list_reports = TextField(validators=[validators.required])
-    calendar = TextField(validators=[validators.required])
-    about = TextField(validators=[validators.required])

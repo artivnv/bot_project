@@ -46,6 +46,21 @@ def contact(update, context):
     org_contact = 'James Marshall Hendrix +7(968) 381-56-10'
     update.message.reply_text(org_contact, reply_markup=get_keyboard())
 
+def location_vist(update, context):
+    update.message.reply_text('''Добраться от Выставочной''')
+    context.bot.send_photo(chat_id=update.message.chat.id, photo=open('images/rick.jpg', 'rb'), reply_markup=get_keyboard())
+
+def location_mejd(update, context):
+    update.message.reply_text('''Добраться от Международной''')
+    context.bot.send_photo(chat_id=update.message.chat.id, photo=open('images/rick.jpg', 'rb'), reply_markup=get_keyboard())
+
+def location_mtsk(update, context):
+    update.message.reply_text('''Добраться от МЦК''')
+    context.bot.send_photo(chat_id=update.message.chat.id, photo=open('images/rick.jpg', 'rb'), reply_markup=get_keyboard())
+
+def location_car(update, context):
+    update.message.reply_text('''Добраться на машине''')
+    context.bot.send_photo(chat_id=update.message.chat.id, photo=open('images/rick.jpg', 'rb'), reply_markup=get_keyboard())
 
 
 def send_photo(update, context):
