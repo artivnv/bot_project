@@ -20,7 +20,7 @@ def get_keyboard():
     return my_keyboard
 
 def location(update, context):
-    navigation_text = 'Выбери откуда тебе удобно добраться.'
+    navigation_text = 'Выбери откуда тебе удобно добраться. Самый близкий маршрут от станции метро «Международная».'
     update.message.reply_text(navigation_text, reply_markup=get_keyboard_1())
 
 def get_keyboard_1():
@@ -31,6 +31,50 @@ def get_keyboard_1():
                                         ], resize_keyboard=True
                                     )
     return my_keyboard_1
+
+def location_vist(update, context):
+    update.message.reply_text('''
+<b>Адрес офиса Ozon: Москва, Пресненская наб.,10, БЦ “Башня на набережной” блок С, этаж 30</b>
+<b>Важно! При себе нужно иметь документ, удостоверяющий личность (паспорт, водительское удостоверение).</b>
+Выставочная
+''')
+    context.bot.send_scheme(chat_id=update.message.chat.id, photo=open('images/scheme.png', 'rb'), reply_markup=get_keyboard())
+
+def location_mejd(update, context):
+    update.message.reply_text('''
+<b>Адрес офиса Ozon: Москва, Пресненская наб. 10, БЦ “Башня на набережной” блок С, этаж 30</b>
+<b>Важно! При себе нужно иметь документ, удостоверяющий личность (паспорт, водительское удостоверение).</b>
+Международная. Предпоследний вагон из центра, выход в сторону IQ-квартала и ТРЦ «Афимолл сити». Далее поднимайтесь по двум
+эскалаторам (вы окажетесь в IQ квартале). Поднявшись поверните налево в сторону выхода с рамками-металлоискателями.
+На выходе оказываетесь напротив БЦ «Башни на набережной» (слева от вас будет гостиница Novotel), 
+вам останется перейти дорогу и зайти в ближайший блок С.
+''')
+    context.bot.send_scheme(chat_id=update.message.chat.id, photo=open('images/scheme.png', 'rb'), reply_markup=get_keyboard())
+
+def location_mtsk(update, context):
+    update.message.reply_text('''
+<b>Адрес офиса Ozon: Москва, Пресненская наб.,10, БЦ “Башня на набережной” блок С, этаж 30</b>
+<b>Важно! При себе нужно иметь документ, удостоверяющий личность (паспорт, водительское удостоверение).</b>
+МЦК
+
+''')
+    ccontext.bot.send_scheme(chat_id=update.message.chat.id, photo=open('images/scheme.png', 'rb'), reply_markup=get_keyboard())
+
+def location_car(update, context):
+    update.message.reply_text('''
+<b>Адрес офиса Ozon: Москва, Пресненская наб.,10, БЦ “Башня на набережной” блок С, этаж 30</b>
+<b>Важно! При себе нужно иметь документ, удостоверяющий личность (паспорт, водительское удостоверение).</b>
+Вы можете добраться на своем транспорте, для этого необходимо заранее сообщить организаторам ГОС номер автомобиля.
+Заезд со стороны набережной. Рядом с КПП указатель “Naberezhnaya Tower”.
+''')
+    context.bot.send_scheme(chat_id=update.message.chat.id, photo=open('images/scheme.png', 'rb'), reply_markup=get_keyboard())
+
+
+def send_photo(update, context):
+    context.bot.send_photo(chat_id=update.message.chat.id, photo=open('images/rick.jpg', 'rb'), reply_markup=get_keyboard())
+
+def send_scheme(update, context):
+    context.bot.send_scheme(chat_id=update.message.chat.id, photo=open('images/scheme.png', 'rb'), reply_markup=get_keyboard())
 
 def calendar(update, context):
     btn_site = [[InlineKeyboardButton('Мероприятия Ozon Tech', url='https://ozon.dev/events')]]
@@ -43,28 +87,9 @@ def about(update, context):
     update.message.reply_text('Тут можно узнать о технологиях.', reply_markup = reply_markup)
 
 def contact(update, context):
-    org_contact = 'James Marshall Hendrix +7(968) 381-56-10'
+    org_contact = 'James Marshall Hendrix +7(968) 381-56-10, @step_ani'
+    #filter.username = '@step_ani'
     update.message.reply_text(org_contact, reply_markup=get_keyboard())
-
-def location_vist(update, context):
-    update.message.reply_text('''Добраться от Выставочной''')
-    context.bot.send_photo(chat_id=update.message.chat.id, photo=open('images/rick.jpg', 'rb'), reply_markup=get_keyboard())
-
-def location_mejd(update, context):
-    update.message.reply_text('''Добраться от Международной''')
-    context.bot.send_photo(chat_id=update.message.chat.id, photo=open('images/rick.jpg', 'rb'), reply_markup=get_keyboard())
-
-def location_mtsk(update, context):
-    update.message.reply_text('''Добраться от МЦК''')
-    context.bot.send_photo(chat_id=update.message.chat.id, photo=open('images/rick.jpg', 'rb'), reply_markup=get_keyboard())
-
-def location_car(update, context):
-    update.message.reply_text('''Добраться на машине''')
-    context.bot.send_photo(chat_id=update.message.chat.id, photo=open('images/rick.jpg', 'rb'), reply_markup=get_keyboard())
-
-
-def send_photo(update, context):
-    context.bot.send_photo(chat_id=update.message.chat.id, photo=open('images/rick.jpg', 'rb'), reply_markup=get_keyboard())
 
 #def talk_to_me(bot, update):
 #    user_text = (update.message.chat.first_name, update.message.text)
