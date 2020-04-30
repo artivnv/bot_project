@@ -1,13 +1,19 @@
 import logging
 import os
 
-from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
+from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, \
+    InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
 from telegram.ext import ConversationHandler
+from telegram.ext import messagequeue as mq
+
+from bot import subscribers
 
 def greet_user(update, context):
     text = 'Вызван старт'
     logging.info(text)
-    bot_text = 'Привет, я бот помощник.'
+    bot_text = '''Привет, я бот помощник. Вот команды которые я понимаю.
+/subscribe - подписаться на напоминание о мероприятии за два часа
+/unsubscribe - отписаться от напоминания'''
     update.message.reply_text(bot_text, reply_markup=get_keyboard())
 
 def get_keyboard():
@@ -36,45 +42,50 @@ def location_vist(update, context):
     update.message.reply_text('''
 <b>Адрес офиса Ozon: Москва, Пресненская наб.,10, БЦ “Башня на набережной” блок С, этаж 30</b>
 <b>Важно! При себе нужно иметь документ, удостоверяющий личность (паспорт, водительское удостоверение).</b>
-Выставочная
-''')
-    context.bot.send_scheme(chat_id=update.message.chat.id, photo=open('images/scheme.png', 'rb'), reply_markup=get_keyboard())
+
+<pre>Выставочная</pre>
+''', parse_mode=ParseMode.HTML)
+    context.bot.send_photo(chat_id=update.message.chat.id, photo=open('images/scheme.png', 'rb'), reply_markup=get_keyboard())
 
 def location_mejd(update, context):
     update.message.reply_text('''
 <b>Адрес офиса Ozon: Москва, Пресненская наб. 10, БЦ “Башня на набережной” блок С, этаж 30</b>
 <b>Важно! При себе нужно иметь документ, удостоверяющий личность (паспорт, водительское удостоверение).</b>
-Международная. Предпоследний вагон из центра, выход в сторону IQ-квартала и ТРЦ «Афимолл сити». Далее поднимайтесь по двум
-эскалаторам (вы окажетесь в IQ квартале). Поднявшись поверните налево в сторону выхода с рамками-металлоискателями.
-На выходе оказываетесь напротив БЦ «Башни на набережной» (слева от вас будет гостиница Novotel), 
-вам останется перейти дорогу и зайти в ближайший блок С.
-''')
-    context.bot.send_scheme(chat_id=update.message.chat.id, photo=open('images/scheme.png', 'rb'), reply_markup=get_keyboard())
+
+<pre>Международная
+- Предпоследний вагон из центра, выход в сторону IQ-квартала и ТРЦ «Афимолл сити»
+- Далее поднимайтесь по двум эскалаторам подряд (вы окажетесь в IQ квартале)
+- Поднявшись, поверните налево в сторону выхода с рамками-металлоискателями
+- На выходе оказываетесь напротив БЦ «Башни на набережной»(слева от вас будет гостиница Novotel)
+- Вам останется перейти дорогу и зайти в ближайший блок С</pre>
+''', parse_mode=ParseMode.HTML)
+    context.bot.send_photo(chat_id=update.message.chat.id, photo=open('images/scheme.png', 'rb'), reply_markup=get_keyboard())
 
 def location_mtsk(update, context):
     update.message.reply_text('''
 <b>Адрес офиса Ozon: Москва, Пресненская наб.,10, БЦ “Башня на набережной” блок С, этаж 30</b>
 <b>Важно! При себе нужно иметь документ, удостоверяющий личность (паспорт, водительское удостоверение).</b>
-МЦК
 
-''')
-    ccontext.bot.send_scheme(chat_id=update.message.chat.id, photo=open('images/scheme.png', 'rb'), reply_markup=get_keyboard())
+<pre>МЦК</pre>
+
+''', parse_mode=ParseMode.HTML)
+    context.bot.send_photo(chat_id=update.message.chat.id, photo=open('images/scheme.png', 'rb'), reply_markup=get_keyboard())
 
 def location_car(update, context):
     update.message.reply_text('''
 <b>Адрес офиса Ozon: Москва, Пресненская наб.,10, БЦ “Башня на набережной” блок С, этаж 30</b>
 <b>Важно! При себе нужно иметь документ, удостоверяющий личность (паспорт, водительское удостоверение).</b>
-Вы можете добраться на своем транспорте, для этого необходимо заранее сообщить организаторам ГОС номер автомобиля.
-Заезд со стороны набережной. Рядом с КПП указатель “Naberezhnaya Tower”.
-''')
-    context.bot.send_scheme(chat_id=update.message.chat.id, photo=open('images/scheme.png', 'rb'), reply_markup=get_keyboard())
 
+<pre>Вы можете добраться на своем транспорте, для этого необходимо заранее сообщить организаторам ГОС номер автомобиля.
+Заезд со стороны набережной. Рядом с КПП указатель “Naberezhnaya Tower”.</pre>
+''', parse_mode=ParseMode.HTML)
+    context.bot.send_photo(chat_id=update.message.chat.id, photo=open('images/scheme.png', 'rb'), reply_markup=get_keyboard())
 
 def send_photo(update, context):
     context.bot.send_photo(chat_id=update.message.chat.id, photo=open('images/rick.jpg', 'rb'), reply_markup=get_keyboard())
 
 def send_scheme(update, context):
-    context.bot.send_scheme(chat_id=update.message.chat.id, photo=open('images/scheme.png', 'rb'), reply_markup=get_keyboard())
+    context.bot.send_photo(chat_id=update.message.chat.id, photo=open('images/scheme.png', 'rb'), reply_markup=get_keyboard())
 
 def calendar(update, context):
     btn_site = [[InlineKeyboardButton('Мероприятия Ozon Tech', url='https://ozon.dev/events')]]
@@ -87,8 +98,7 @@ def about(update, context):
     update.message.reply_text('Тут можно узнать о технологиях.', reply_markup = reply_markup)
 
 def contact(update, context):
-    org_contact = 'James Marshall Hendrix +7(968) 381-56-10, @step_ani'
-    #filter.username = '@step_ani'
+    org_contact = 'Devrel OZON, Ани +7(968)381-56-10, telegram: @step_ani'
     update.message.reply_text(org_contact, reply_markup=get_keyboard())
 
 #def talk_to_me(bot, update):
@@ -164,4 +174,26 @@ def org_assessment_comment_skip(update, context):
     return ConversationHandler.END
 
 def dontknow(update, context):
-    update.message.reply_text("Не понимаю")
+    update.message.reply_text('Не понимаю')
+
+def subscribe(update, context):
+    subscribers.add(update.message.chat_id)
+    update.message.reply_text('Я напомню о мероприятии за два часа.')
+    sub = 'Пользователь подписался на напоминание:'
+    logging.info(sub)
+    logging.info('User: %s, Chat id: %s', update.message.chat.username, update.message.chat.id)
+
+#@mq.queuedmessage
+def send_reminder(context):
+    job = context.job
+    for chat_id in subscribers:
+        context.bot.send_message(chat_id=chat_id, text='Напоминаю о мероприятии.')
+
+def unsubscribe(update, context):
+    if update.message.chat_id in subscribers:
+        subscribers.remove(update.message.chat_id)
+        update.message.reply_text('Вы отписались от напоминаний.')
+    else:
+        update.message.reply_text('Вы не подписаны на напоминание, выполните /subscribe чтобы подписаться.')
+
+

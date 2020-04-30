@@ -1,7 +1,10 @@
-import os, logging, sys
+import datetime, os, logging, sys
 from threading import Thread
 
-from telegram.ext import Updater, CommandHandler, ConversationHandler, Filters, MessageHandler, RegexHandler
+from telegram.ext import Updater, CommandHandler, ConversationHandler, \
+    Filters, MessageHandler, RegexHandler
+
+from telegram.ext import messagequeue as mq
 
 from handlers import *
 import settings
@@ -10,10 +13,20 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
                     level=logging.INFO, filename='bot.log'
                     )
 
+subscribers = set()
+
 def main():
     mybot = Updater(settings.API_KEY, use_context=True, request_kwargs=settings.PROXY)
+    mybot._msg_queue = mq.MessageQueue()
+    mybot._is_messages_queued_default = True
+
     logging.info('Бот запустился.')
+
     dp = mybot.dispatcher
+
+    mybot.job_queue.run_repeating(send_reminder, interval=3)
+    #mybot.job_queue.run_once()
+    #mybot.job_queue.run_daily(send_reminder, time=datetime.time(6,33,00))
 
     def stop_and_restart():
         mybot.stop()
@@ -45,6 +58,8 @@ def main():
 
     dp.add_handler(CommandHandler('start', greet_user, pass_user_data=True))
     dp.add_handler(CommandHandler('r', restart, filters=Filters.user(username='@artivnv')))
+    dp.add_handler(CommandHandler('subscribe', subscribe))
+    dp.add_handler(CommandHandler('unsubscribe', unsubscribe))
     dp.add_handler(org_assessment)
     dp.add_handler(MessageHandler(Filters.regex('^(Добраться до площадки)$'), location, pass_user_data=True))
     dp.add_handler(MessageHandler(Filters.regex('^(Связаться с организаторами)$'), contact, pass_user_data=True))
