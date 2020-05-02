@@ -7,26 +7,21 @@ from telegram.ext import Updater, CommandHandler, ConversationHandler, \
 from telegram.ext import messagequeue as mq
 
 from handlers import *
+from assessment import *
 import settings
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO, filename='bot.log'
                     )
 
-subscribers = set()
-
 def main():
     mybot = Updater(settings.API_KEY, use_context=True, request_kwargs=settings.PROXY)
-    mybot._msg_queue = mq.MessageQueue()
-    mybot._is_messages_queued_default = True
+    mybot.bot._msg_queue = mq.MessageQueue()
+    mybot.bot._is_messages_queued_default = True
 
     logging.info('Бот запустился.')
 
     dp = mybot.dispatcher
-
-    mybot.job_queue.run_repeating(send_reminder, interval=3)
-    #mybot.job_queue.run_once()
-    #mybot.job_queue.run_daily(send_reminder, time=datetime.time(6,33,00))
 
     def stop_and_restart():
         mybot.stop()
