@@ -3,8 +3,7 @@ import logging
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode
 from telegram.ext import ConversationHandler
 
-from db import db, get_or_create_user
-from assessment import *
+from db import db, get_or_create_user, save_assessment
 from handlers import *
 
 def org_assessment_start(update, context):
@@ -59,6 +58,9 @@ def org_assessment_rating(update, context):
 def org_assessment_comment(update, context):
     user = get_or_create_user(db, update.effective_user, update.message)
     context.user_data['org_comment'] = update.message.text
+    # Запись анкеты в бд
+    save_assessment(db, update.effective_user, context.user_data)
+
     text = """
 <b>Имя:</b> {user_name}
 <b>Опыт работы:</b> {job}

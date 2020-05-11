@@ -8,6 +8,7 @@ from telegram.ext import messagequeue as mq
 
 from handlers import *
 from assessment import *
+from db import *
 import settings
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -58,7 +59,7 @@ def main():
     dp.add_handler(org_assessment)
     dp.add_handler(MessageHandler(Filters.regex('^(Добраться до площадки)$'), location, pass_user_data=True))
     dp.add_handler(MessageHandler(Filters.regex('^(Связаться с организаторами)$'), contact, pass_user_data=True))
-    dp.add_handler(MessageHandler(Filters.regex('^(Список докладов)$'), send_photo, pass_user_data=True))
+    dp.add_handler(MessageHandler(Filters.regex('^(Список докладов)$'), list_of_reports, pass_user_data=True))
     dp.add_handler(MessageHandler(Filters.regex('^(Проголосовать за доклады)$'), send_photo, pass_user_data=True))
     dp.add_handler(MessageHandler(Filters.regex('^(Результаты голосования)$'), send_photo, pass_user_data=True))
     dp.add_handler(MessageHandler(Filters.regex('^(Поделиться ботом)$'), send_photo, pass_user_data=True))
@@ -72,7 +73,6 @@ def main():
 
     dp.add_handler(MessageHandler(Filters.regex('^(Главное меню)$'), greet_user, pass_user_data=True))
 
-    #dp.add_handler(MessageHandler(Filters.text, talk_to_me, pass_user_data=True))
 
     # Start
     mybot.start_polling()
