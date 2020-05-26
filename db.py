@@ -45,11 +45,28 @@ def save_assessment(db, effective_user, context):
         db.assessments.insert_one(assessment)
     return assessment
 
-
 def list_of_reports(update, context):
     obj = db_flask.event.find_one()
+    #print(obj['list_reports'].split('\r\n')[0])
     from handlers import get_keyboard
     update.message.reply_text(obj['list_reports'], reply_markup=get_keyboard())
+
+def save_vote_for_reports(db, context, update, callback_query, effective_user):
+    vote = db.vote_for_reports.find_one({"user_id": effective_user.id})
+    if not vote:
+        vote = {
+            "user_id": effective_user.id,
+            "username": context.callback_query.message.chat.username,
+            "name_report_0": context.callback_query.message.text,
+            "grades_report_0": context.callback_query.data,
+            "name_report_1": context.callback_query.message.text,
+            "grades_report_1": context.callback_query.data,
+            "name_report_2": context.callback_query.message.text,
+            "grades_report_2": context.callback_query.data
+
+        }
+        db.vote_for_reports.insert_one(vote)
+    return vote
 
 
 

@@ -1,11 +1,13 @@
 import logging
 import os
 
+from emoji import emojize
 from telegram import ReplyKeyboardMarkup, \
     InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, error
 from telegram.ext import messagequeue as mq
 
-from db import db, get_or_create_user, toggle_subscription, get_subscribers
+from db import db, db_flask, get_or_create_user, toggle_subscription, get_subscribers,\
+    save_vote_for_reports
 
 from location import *
 
@@ -45,7 +47,7 @@ def about(update, context):
 
 def contact(update, context):
     user = get_or_create_user(db, update.effective_user, update.message)
-    org_contact = 'Devrel OZON, Ани +7(968)381-56-10, telegram: @step_ani'
+    org_contact = 'Devrel OZON, Ани +7(968)123-45-67, telegram: @user'
     update.message.reply_text(org_contact, reply_markup=get_keyboard())
 
 def subscribe(update, context):
@@ -75,6 +77,33 @@ def send_reminder(context):
             print('Chat {} not found'.format(user['chat_id']))
 
 
+def vote_for_reports(update, context):
+    obj = db_flask.event.find_one()
+    text = 'Проголосуйте за список докладов'
+    inlinekbd = [[InlineKeyboardButton('1', callback_data='1'),
+                    InlineKeyboardButton('2', callback_data='2'),
+                    InlineKeyboardButton('3', callback_data='3'),
+                    InlineKeyboardButton('4', callback_data='4'),
+                    InlineKeyboardButton(emojize(':thumbs_up:'), callback_data='5')]]
+    kdb_markup = InlineKeyboardMarkup(inlinekbd)
+    update.message.reply_text(text)
+    update.message.reply_text(obj['list_reports'].split('\r\n')[0], reply_markup=kdb_markup)
+    update.message.reply_text(obj['list_reports'].split('\r\n')[1], reply_markup=kdb_markup)
+    update.message.reply_text(obj['list_reports'].split('\r\n')[2], reply_markup=kdb_markup)
+    #update.message.reply_text(obj['list_reports'].split('\r\n')[3], reply_markup=kdb_markup)
+    #update.message.reply_text(obj['list_reports'].split('\r\n')[4], reply_markup=kdb_markup)
+
+def vote_for_reports_pressed(update, context):
+    query = update.callback_query
+    print(update.callback_query.message.text)
+    print(update.callback_query.data)
+    save_vote_for_reports(db, update, update.callback_query, context, update.effective_user)
+    text = 'Спасибо за ваш голос'
+
+    vote = 'Пользователь проголосовал за доклады:'
+    logging.info(vote)
+    logging.info('User: %s, Chat id: %s', query.message.chat.username, query.message.chat.id)
+    context.bot.edit_message_text(text=text, chat_id=query.message.chat.id, message_id=query.message.message_id)
 
 
 

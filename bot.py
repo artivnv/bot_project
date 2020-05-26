@@ -2,7 +2,7 @@ import datetime, os, logging, sys
 from threading import Thread
 
 from telegram.ext import Updater, CommandHandler, ConversationHandler, \
-    Filters, MessageHandler, RegexHandler
+    Filters, MessageHandler, RegexHandler, CallbackQueryHandler
 
 from telegram.ext import messagequeue as mq
 
@@ -60,7 +60,8 @@ def main():
     dp.add_handler(MessageHandler(Filters.regex('^(Добраться до площадки)$'), location, pass_user_data=True))
     dp.add_handler(MessageHandler(Filters.regex('^(Связаться с организаторами)$'), contact, pass_user_data=True))
     dp.add_handler(MessageHandler(Filters.regex('^(Список докладов)$'), list_of_reports, pass_user_data=True))
-    dp.add_handler(MessageHandler(Filters.regex('^(Проголосовать за доклады)$'), send_photo, pass_user_data=True))
+    dp.add_handler(MessageHandler(Filters.regex('^(Проголосовать за доклады)$'), vote_for_reports, pass_user_data=True))
+    dp.add_handler(CallbackQueryHandler(vote_for_reports_pressed))
     dp.add_handler(MessageHandler(Filters.regex('^(Результаты голосования)$'), send_photo, pass_user_data=True))
     dp.add_handler(MessageHandler(Filters.regex('^(Поделиться ботом)$'), send_photo, pass_user_data=True))
     dp.add_handler(MessageHandler(Filters.regex('^(Календарь событий)$'), calendar, pass_user_data=True))
@@ -81,3 +82,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
