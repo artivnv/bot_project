@@ -2,7 +2,6 @@ from pymongo import MongoClient
 import settings
 
 db = MongoClient(settings.MONGODB_HOST)[settings.MONGODB_DB]
-db_flask = MongoClient(settings.MONGODB_HOST_FLASK)[settings.MONGODB_DB_FLASK]
 
 def get_or_create_user(db, effective_user, message):
     user = db.bot_users.find_one({"user_id": effective_user.id})
@@ -45,11 +44,6 @@ def save_assessment(db, effective_user, context):
         db.assessments.insert_one(assessment)
     return assessment
 
-def list_of_reports(update, context):
-    obj = db_flask.event.find_one()
-    #print(obj['list_reports'].split('\r\n')[0])
-    from handlers import get_keyboard
-    update.message.reply_text(obj['list_reports'], reply_markup=get_keyboard())
 
 def save_vote_for_reports(db, context, update, callback_query, effective_user):
     vote = db.vote_for_reports.find_one({"user_id": effective_user.id})
@@ -67,8 +61,6 @@ def save_vote_for_reports(db, context, update, callback_query, effective_user):
         }
         db.vote_for_reports.insert_one(vote)
     return vote
-
-
 
 
 

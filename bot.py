@@ -8,6 +8,7 @@ from telegram.ext import messagequeue as mq
 
 from handlers import *
 from assessment import *
+from reports import *
 from db import *
 import settings
 
@@ -33,6 +34,30 @@ def main():
         Thread(target=stop_and_restart).start()
         logging.info('Бот перезагружен.')
 
+    reports = ConversationHandler(
+        entry_points = [
+            MessageHandler(Filters.regex('^(Заполнить доклады)$'), start_create)
+        ],
+        states = {
+            "report_1": [
+                CommandHandler("cancel", cancel),
+                MessageHandler(Filters.text, create_report_1)],
+            "report_2": [
+                CommandHandler("cancel", cancel),
+                MessageHandler(Filters.text, create_report_2)],
+            "report_3": [
+                CommandHandler("cancel", cancel),
+                MessageHandler(Filters.text, create_report_3)],
+            "report_4": [
+                CommandHandler("cancel", cancel),
+                MessageHandler(Filters.text, create_report_4)],
+            "report_5": [
+                CommandHandler("cancel", cancel),
+                MessageHandler(Filters.text, create_report_5)],
+        },
+        fallbacks=[]
+    )
+
     org_assessment = ConversationHandler(
         entry_points=[MessageHandler(Filters.regex('^(Оценить организацию)$'), org_assessment_start, pass_user_data=True)],
 
@@ -54,8 +79,10 @@ def main():
 
     dp.add_handler(CommandHandler('start', greet_user, pass_user_data=True))
     dp.add_handler(CommandHandler('r', restart, filters=Filters.user(username='@artivnv')))
+    #dp.add_handler(CommandHandler('create', create_reports, filters=Filters.user(username='@artivnv')))
     dp.add_handler(CommandHandler('subscribe', subscribe))
     dp.add_handler(CommandHandler('unsubscribe', unsubscribe))
+    dp.add_handler(reports)
     dp.add_handler(org_assessment)
     dp.add_handler(MessageHandler(Filters.regex('^(Добраться до площадки)$'), location, pass_user_data=True))
     dp.add_handler(MessageHandler(Filters.regex('^(Связаться с организаторами)$'), contact, pass_user_data=True))
@@ -73,7 +100,6 @@ def main():
     dp.add_handler(MessageHandler(Filters.regex('^(Я на машине)$'), location_car, pass_user_data=True))
 
     dp.add_handler(MessageHandler(Filters.regex('^(Главное меню)$'), greet_user, pass_user_data=True))
-
 
     # Start
     mybot.start_polling()

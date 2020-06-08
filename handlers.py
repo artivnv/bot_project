@@ -6,7 +6,7 @@ from telegram import ReplyKeyboardMarkup, \
     InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, error
 from telegram.ext import messagequeue as mq
 
-from db import db, db_flask, get_or_create_user, toggle_subscription, get_subscribers,\
+from db import db, get_or_create_user, toggle_subscription, get_subscribers,\
     save_vote_for_reports
 
 from location import *
@@ -76,9 +76,7 @@ def send_reminder(context):
         except error.BadRequest:
             print('Chat {} not found'.format(user['chat_id']))
 
-
 def vote_for_reports(update, context):
-    obj = db_flask.event.find_one()
     text = 'Проголосуйте за список докладов'
     inlinekbd = [[InlineKeyboardButton('1', callback_data='1'),
                     InlineKeyboardButton('2', callback_data='2'),
@@ -87,11 +85,9 @@ def vote_for_reports(update, context):
                     InlineKeyboardButton(emojize(':thumbs_up:'), callback_data='5')]]
     kdb_markup = InlineKeyboardMarkup(inlinekbd)
     update.message.reply_text(text)
-    update.message.reply_text(obj['list_reports'].split('\r\n')[0], reply_markup=kdb_markup)
-    update.message.reply_text(obj['list_reports'].split('\r\n')[1], reply_markup=kdb_markup)
-    update.message.reply_text(obj['list_reports'].split('\r\n')[2], reply_markup=kdb_markup)
-    #update.message.reply_text(obj['list_reports'].split('\r\n')[3], reply_markup=kdb_markup)
-    #update.message.reply_text(obj['list_reports'].split('\r\n')[4], reply_markup=kdb_markup)
+    update.message.reply_text(list_of_reports.report_1, reply_markup=kdb_markup)
+    update.message.reply_text(list_of_reports.report_2, reply_markup=kdb_markup)
+    update.message.reply_text(list_of_reports.report_3, reply_markup=kdb_markup)
 
 def vote_for_reports_pressed(update, context):
     query = update.callback_query
@@ -106,5 +102,11 @@ def vote_for_reports_pressed(update, context):
     context.bot.edit_message_text(text=text, chat_id=query.message.chat.id, message_id=query.message.message_id)
 
 
-
+def list_of_reports(update, context):
+    report_1 = 'Первый доклад'
+    report_2 = 'Второй доклад'
+    report_3 = 'Третий доклад'
+    update.message.reply_text(report_1, reply_markup=get_keyboard())
+    update.message.reply_text(report_2, reply_markup=get_keyboard())
+    update.message.reply_text(report_3, reply_markup=get_keyboard())
 
