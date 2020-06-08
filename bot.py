@@ -55,7 +55,10 @@ def main():
                 CommandHandler("cancel", cancel),
                 MessageHandler(Filters.text, create_report_5)],
         },
-        fallbacks=[]
+        fallbacks=[MessageHandler(
+            Filters.text | Filters.video | Filters.photo | Filters.document | Filters.location,
+            dontknow_report
+        )]
     )
 
     org_assessment = ConversationHandler(

@@ -44,6 +44,19 @@ def save_assessment(db, effective_user, context):
         db.assessments.insert_one(assessment)
     return assessment
 
+def save_reports(db, effective_user, context):
+    reports = {
+        "user_id": effective_user.id,
+        "username": effective_user.username,
+        "report_1": context['report_1'],
+        "report_2": context['report_2'],
+        "report_3": context['report_3'],
+        "report_4": context['report_4'],
+        "report_5": context['report_5']
+    }
+    db.reports.insert_one(reports)
+    return reports
+
 
 def save_vote_for_reports(db, context, update, callback_query, effective_user):
     vote = db.vote_for_reports.find_one({"user_id": effective_user.id})

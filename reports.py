@@ -1,6 +1,8 @@
 from telegram import ParseMode, ReplyKeyboardRemove
 from telegram.ext import ConversationHandler
 
+from db import db, save_reports
+
 def start_create(update, context):
     update.message.reply_text(
         'Введи название первого доклада или /cancel чтоб сохранить и выйти из заполнения.',
@@ -42,10 +44,12 @@ def create_report_4(update, context):
 
 def create_report_5(update, context):
     context.user_data['report_5'] = update.message.text
-    update.message.reply_text(
-        #'Введи название шестого доклада или /cancel чтоб сохранить и выйти из заполнения.',
-        reply_markup = ReplyKeyboardRemove()
-    )
+    save_reports(db, update.effective_user, context.user_data)
     return ConversationHandler.END
 
 def cancel(update, context):
+    update.message.reply_text('Вышли из заполнения')
+    return ConversationHandler.END
+
+def dontknow_report(update, context):
+    update.message.reply_text('Не понимаю.')
